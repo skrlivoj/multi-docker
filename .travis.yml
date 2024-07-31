@@ -1,0 +1,21 @@
+sudo: required
+services:
+  - docker
+
+# prepare Images for tests
+# more projects can be added but we only run tests for client
+before_install:
+  - docker build -t skrlivoj/react-test -f ./client/Dockerfile.dev ./client
+
+# primary test running section,
+# Travis consider status code 0 as successful test
+script:
+  - docker run -e CI=true skrlivoj/react-test npm test
+
+# when tests are OK
+after_success:
+  # production Images
+  - docker build -t skrlivoj/multi-client ./client
+  - docker build -t skrlivoj/multi-nginx ./nginx
+  - docker build -t skrlivoj/multi-server ./server
+  - docker build -t skrlivoj/multi-worker ./worker
