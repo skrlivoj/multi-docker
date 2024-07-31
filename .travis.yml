@@ -19,3 +19,10 @@ after_success:
   - docker build -t skrlivoj/multi-nginx ./nginx
   - docker build -t skrlivoj/multi-server ./server
   - docker build -t skrlivoj/multi-worker ./worker
+  # log in to Docker CLI
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+  # take created Images and push them to Docker Hub
+  - docker push skrlivoj/multi-client
+  - docker push skrlivoj/multi-nginx
+  - docker push skrlivoj/multi-server
+  - docker push skrlivoj/multi-worker
