@@ -26,3 +26,16 @@ after_success:
   - docker push skrlivoj/multi-nginx
   - docker push skrlivoj/multi-server
   - docker push skrlivoj/multi-worker
+
+deploy:
+  provider: elasticbeanstalk
+  region: 'eu-north-1'
+  app: 'multi-docker'
+  env: 'Multi-docker-env'
+  bucket_name: 'elasticbeanstalk-eu-north-1-142732266868'
+  bucket_path: 'docker-multi'
+  on:
+    branch: master
+  access_key_id: $AWS_ACCESS_KEY
+  secret_access_key: $AWS_SECRET_KEY
+  
